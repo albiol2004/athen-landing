@@ -470,6 +470,234 @@
     .ambient::before, .ambient::after { animation: none; }
     .hero, .features, .values { animation: none; }
   }
+
+  /* install instructions modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(10, 8, 7, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(28, 22, 20, 0.92), rgba(20, 16, 14, 0.92));
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    box-shadow:
+      0 32px 80px rgba(0, 0, 0, 0.55),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    transform: translateY(8px) scale(0.99);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1);
+  }
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 24px; right: 24px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.28), transparent);
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--fg-faint);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .modal-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--fg);
+    border-color: var(--border);
+  }
+  .modal-os-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255, 107, 74, 0.18), rgba(255, 61, 110, 0.12));
+    border: 1px solid rgba(255, 107, 74, 0.28);
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  .modal h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-bottom: 6px;
+  }
+  .modal-subtitle {
+    color: var(--fg-dim);
+    font-size: 14px;
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+  .modal-steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0 0 22px;
+  }
+  .modal-steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 18px 38px;
+    color: var(--fg);
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .modal-steps li:last-child { padding-bottom: 0; }
+  .modal-steps li::before {
+    content: counter(step);
+    position: absolute;
+    top: -1px; left: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 107, 74, 0.14);
+    border: 1px solid rgba(255, 107, 74, 0.32);
+    color: var(--coral);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-steps em {
+    color: var(--fg-dim);
+    font-style: italic;
+  }
+  .modal-steps strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .modal-steps code {
+    display: block;
+    margin: 8px 0 4px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12.5px;
+    color: var(--amber);
+    white-space: pre-wrap;
+    word-break: break-all;
+    position: relative;
+    padding-right: 56px;
+  }
+  .modal-steps p code,
+  .modal-steps li > code + code { /* inline-code variant inside flowing text */
+    display: inline;
+    padding: 1px 6px;
+    margin: 0;
+    font-size: 12px;
+    color: var(--amber);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border);
+    word-break: normal;
+  }
+  .modal-steps .inline-code {
+    display: inline;
+    padding: 1px 6px;
+    margin: 0 1px;
+    font-size: 12px;
+    color: var(--amber);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    word-break: normal;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 6px; right: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-family: inherit;
+    color: var(--fg-dim);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .copy-btn:hover { background: rgba(255, 255, 255, 0.08); color: var(--fg); }
+  .copy-btn.copied { color: var(--coral); border-color: rgba(255, 107, 74, 0.4); }
+  .modal-download-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--fg-dim);
+  }
+  .modal-download-link strong { color: var(--fg); font-weight: 500; }
+  .modal-download-link a {
+    margin-left: auto;
+    color: var(--coral);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .modal-download-link a:hover { text-decoration: underline; }
+  .modal-dismiss {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fg);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .modal-dismiss:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  @media (max-width: 600px) {
+    .modal { padding: 24px; }
+    .modal h2 { font-size: 19px; }
+  }
 </style>
 </head>
 <body>
@@ -515,7 +743,7 @@
           <a href="#" data-asset="rpm">Fedora / RHEL — .rpm</a>
           <a href="#" data-asset="deb">Debian / Ubuntu — .deb</a>
           <a href="#" data-asset="appimage">AppImage (any distro)</a>
-          <a href="https://aur.archlinux.org/packages/athen-bin" target="_blank" rel="noopener">Arch / CachyOS — AUR</a>
+          <a href="https://aur.archlinux.org/packages/athen-bin" data-asset="aur" target="_blank" rel="noopener">Arch / CachyOS — AUR</a>
         </div>
         <div class="group">
           <div class="group-label">macOS</div>
@@ -577,10 +805,98 @@ cd Athen &amp;&amp; cargo run -p athen-app --release</code>
   </div>
 </footer>
 
+<div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-os-badge" id="modal-os-badge">
+      <svg id="modal-os-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"></svg>
+    </div>
+    <h2 id="modal-title">Installing Athen</h2>
+    <p class="modal-subtitle" id="modal-subtitle">Your download is starting. Here's what to do next:</p>
+    <ol class="modal-steps" id="modal-steps"></ol>
+    <div class="modal-download-link" id="modal-download-link" hidden>
+      <span><strong id="modal-file-name">file</strong> · <span id="modal-file-size"></span></span>
+      <a id="modal-file-link" href="#">Download again</a>
+    </div>
+    <button class="modal-dismiss" id="modal-dismiss">Got it</button>
+  </div>
+</div>
+
 <script>
 (() => {
   const REPO = 'albiol2004/Athen';
   const RELEASES_URL = `https://github.com/${REPO}/releases/latest`;
+
+  // ─── install instructions ───────────────────────────────────────────────
+  const INSTRUCTIONS = {
+    windows: {
+      title: 'Installing Athen on Windows',
+      subtitle: 'Your download is starting. Here\'s what to do next:',
+      steps: [
+        { html: 'Open the installer that just downloaded (probably in your <strong>Downloads</strong> folder).' },
+        { html: 'Windows will say <em>"Windows protected your PC"</em>. This is normal — Athen isn\'t code-signed yet (it\'s next on the post-launch list). Click <strong>More info</strong>, then <strong>Run anyway</strong>.' },
+        { html: 'Follow the installer prompts. Athen will appear in your Start menu when it finishes.' },
+      ],
+    },
+    macos: {
+      title: 'Installing Athen on macOS',
+      subtitle: 'Your download is starting. Here\'s what to do next:',
+      steps: [
+        { html: 'Open the <strong>.dmg</strong> file and drag <strong>Athen</strong> into your <strong>Applications</strong> folder.' },
+        { html: 'First time you open it, macOS may say <em>"Athen is damaged and can\'t be opened."</em> It isn\'t — Apple just doesn\'t trust apps that haven\'t paid for a developer ID yet. Open <strong>Terminal</strong> and paste:', code: 'xattr -d com.apple.quarantine /Applications/Athen.app' },
+        { html: 'Open Athen normally from <strong>Applications</strong>.' },
+        { html: '<em>Note:</em> Apple Silicon (M1/M2/M3/M4) only for now. Intel Mac builds will return once code signing is set up.' },
+      ],
+    },
+    'linux-appimage': {
+      title: 'Installing Athen on Linux',
+      subtitle: 'Your AppImage is downloading. Make it executable and run it:',
+      steps: [
+        { html: 'Open a terminal in the folder where the file downloaded (usually <span class="inline-code">~/Downloads</span>).' },
+        { html: 'Make it executable:', code: 'chmod +x Athen_*.AppImage' },
+        { html: 'Run it:', code: './Athen_*.AppImage' },
+        { html: '<strong>On Fedora 44+?</strong> If you see an <span class="inline-code">EGL_BAD_PARAMETER</span> crash on launch, install the <strong>.rpm</strong> from "Other platforms" instead — the AppImage bundles a graphics stack that collides with recent Fedora.' },
+      ],
+    },
+    'linux-deb': {
+      title: 'Installing Athen on Debian / Ubuntu',
+      subtitle: 'Your .deb is downloading. Install it with:',
+      steps: [
+        { html: 'Open a terminal in your Downloads folder and run:', code: 'sudo apt install ./Athen_*.deb' },
+        { html: 'Or double-click the .deb to install via your software center.' },
+        { html: 'Athen will then update like any other system package via <span class="inline-code">apt upgrade</span>.' },
+      ],
+    },
+    'linux-rpm': {
+      title: 'Installing Athen on Fedora / RHEL',
+      subtitle: 'Your .rpm is downloading. Install it with:',
+      steps: [
+        { html: 'Open a terminal in your Downloads folder and run:', code: 'sudo dnf install ./Athen-*.rpm' },
+        { html: 'For automatic updates, use the COPR repository instead:', code: 'sudo dnf copr enable albiol2004/athen\nsudo dnf install athen' },
+      ],
+    },
+    'linux-aur': {
+      title: 'Installing Athen on Arch / CachyOS',
+      subtitle: 'Athen is in the AUR — install with your favourite helper:',
+      steps: [
+        { code: 'yay -S athen-bin' },
+        { html: 'Or <span class="inline-code">paru</span>, <span class="inline-code">pikaur</span>, or any other AUR helper. Updates land automatically with <span class="inline-code">yay -Syu</span> like any other package.' },
+        { html: 'The AUR page just opened in another tab if you want to read more.' },
+      ],
+      noDownload: true,
+    },
+  };
+
+  // asset key (from data-asset) → instructions key
+  const ASSET_TO_INSTR = {
+    exe: 'windows',
+    msi: 'windows',
+    dmg: 'macos',
+    appimage: 'linux-appimage',
+    deb: 'linux-deb',
+    rpm: 'linux-rpm',
+    aur: 'linux-aur',
+  };
 
   // OS detection
   const ua = navigator.userAgent;
@@ -627,6 +943,116 @@ cd Athen &amp;&amp; cargo run -p athen-app --release</code>
   osIcon.innerHTML = OS_ICONS[os];
   osIcon.setAttribute('viewBox', os === 'unknown' ? '0 0 24 24' : (os === 'macos' ? '0 0 24 24' : '0 0 24 24'));
 
+  // ─── modal controller ───────────────────────────────────────────────────
+  const overlay = document.getElementById('modal-overlay');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSubtitle = document.getElementById('modal-subtitle');
+  const modalSteps = document.getElementById('modal-steps');
+  const modalIcon = document.getElementById('modal-os-icon');
+  const modalDownloadLink = document.getElementById('modal-download-link');
+  const modalFileName = document.getElementById('modal-file-name');
+  const modalFileSize = document.getElementById('modal-file-size');
+  const modalFileLink = document.getElementById('modal-file-link');
+
+  // Map instruction key → OS family for the icon
+  const INSTR_TO_OS = {
+    windows: 'windows',
+    macos: 'macos',
+    'linux-appimage': 'linux',
+    'linux-deb': 'linux',
+    'linux-rpm': 'linux',
+    'linux-aur': 'linux',
+  };
+
+  function showModal(instrKey, assetInfo) {
+    const spec = INSTRUCTIONS[instrKey];
+    if (!spec) return;
+
+    modalTitle.textContent = spec.title;
+    modalSubtitle.textContent = spec.subtitle;
+
+    // Set the OS icon
+    const iconOs = INSTR_TO_OS[instrKey] || 'unknown';
+    modalIcon.innerHTML = OS_ICONS[iconOs];
+
+    // Render steps
+    modalSteps.innerHTML = '';
+    spec.steps.forEach(step => {
+      const li = document.createElement('li');
+      if (step.html) {
+        const p = document.createElement('span');
+        p.innerHTML = step.html;
+        li.appendChild(p);
+      }
+      if (step.code) {
+        const code = document.createElement('code');
+        code.textContent = step.code;
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-btn';
+        copyBtn.type = 'button';
+        copyBtn.textContent = 'Copy';
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(step.code).then(() => {
+            copyBtn.textContent = 'Copied';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+              copyBtn.textContent = 'Copy';
+              copyBtn.classList.remove('copied');
+            }, 1600);
+          });
+        });
+        code.appendChild(copyBtn);
+        li.appendChild(code);
+      }
+      modalSteps.appendChild(li);
+    });
+
+    // File info row (only for actual download flows)
+    if (assetInfo && !spec.noDownload) {
+      modalFileName.textContent = assetInfo.name;
+      modalFileSize.textContent = assetInfo.size
+        ? `${(assetInfo.size / 1024 / 1024).toFixed(0)} MB`
+        : '';
+      modalFileLink.href = assetInfo.url;
+      modalDownloadLink.hidden = false;
+    } else {
+      modalDownloadLink.hidden = true;
+    }
+
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-dismiss').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  // ─── resolved asset registry, populated after API fetch ─────────────────
+  const resolvedAssets = {}; // assetKey → { name, size, url }
+
+  function attachModalHandler(el, assetKey) {
+    el.addEventListener('click', (e) => {
+      const instrKey = ASSET_TO_INSTR[assetKey];
+      if (!instrKey) return; // unknown asset → let normal nav happen
+      // Don't suppress the actual download/navigation. Just also pop the modal.
+      const info = resolvedAssets[assetKey];
+      // Tiny delay so the browser's download notification doesn't fight the modal
+      setTimeout(() => showModal(instrKey, info), 50);
+    });
+  }
+
   // Fetch latest release
   fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
     headers: { 'Accept': 'application/vnd.github+json' }
@@ -642,7 +1068,14 @@ cd Athen &amp;&amp; cargo run -p athen-app --release</code>
       const resolved = {};
       for (const [key, pattern] of Object.entries(PATTERNS)) {
         const asset = release.assets.find(a => pattern.test(a.name));
-        if (asset) resolved[key] = asset.browser_download_url;
+        if (asset) {
+          resolved[key] = asset.browser_download_url;
+          resolvedAssets[key] = {
+            name: asset.name,
+            size: asset.size,
+            url: asset.browser_download_url,
+          };
+        }
       }
 
       // Map OS → preferred asset key.
@@ -658,8 +1091,10 @@ cd Athen &amp;&amp; cargo run -p athen-app --release</code>
       if (primaryKey && resolved[primaryKey]) {
         primaryBtn.href = resolved[primaryKey];
         primaryBtn.classList.remove('loading');
-        const sizeMb = release.assets.find(a => PATTERNS[primaryKey].test(a.name))?.size;
+        primaryBtn.dataset.asset = primaryKey;
+        const sizeMb = resolvedAssets[primaryKey]?.size;
         if (sizeMb) primaryMeta.textContent = `${(sizeMb / 1024 / 1024).toFixed(0)} MB`;
+        attachModalHandler(primaryBtn, primaryKey);
       } else {
         primaryBtn.href = RELEASES_URL;
         primaryBtn.classList.remove('loading');
@@ -668,10 +1103,16 @@ cd Athen &amp;&amp; cargo run -p athen-app --release</code>
       // Wire the "other platforms" links
       document.querySelectorAll('.other-platforms a[data-asset]').forEach(a => {
         const key = a.dataset.asset;
+        if (key === 'aur') {
+          // External link, no asset to resolve — just attach the modal handler
+          attachModalHandler(a, 'aur');
+          return;
+        }
         if (resolved[key]) {
           a.href = resolved[key];
           a.target = '_blank';
           a.rel = 'noopener';
+          attachModalHandler(a, key);
         } else {
           a.href = RELEASES_URL;
           a.target = '_blank';
