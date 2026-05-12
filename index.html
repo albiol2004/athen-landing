@@ -645,11 +645,13 @@ cd Athen &amp;&amp; cargo run -p athen-app --release</code>
         if (asset) resolved[key] = asset.browser_download_url;
       }
 
-      // Map OS → preferred asset key
+      // Map OS → preferred asset key.
+      // Linux default is AppImage: universal across distros (no package-manager assumption).
+      // Distro-specific options (.deb, .rpm, AUR) live in the "Other platforms" panel.
       const primaryKey = {
         windows: 'exe',
         macos: 'dmg',
-        linux: 'deb', // most-common Linux default; AppImage has Mesa quirks on Fedora 44+
+        linux: 'appimage',
         unknown: null
       }[os];
 
